@@ -1,0 +1,55 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5144
+        }
+      ],
+      "UpstreamPathTemplate": "/api/register",
+      "UpstreamHttpMethod": [ "POST" ]    
+    },
+    {
+      "DownstreamPathTemplate": "/api",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5144
+        }
+      ],
+      "UpstreamPathTemplate": "/auth",
+      "UpstreamHttpMethod": [ "GET" ],
+      "Key": "authentication"
+    },
+    {
+      "DownstreamPathTemplate": "/api",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5200
+        }
+      ],
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": [ "GET" ],
+      "Key": "user"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5274"
+  },
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "authentication",
+        "user"
+      ],
+      "UpstreamPathTemplate": "/GetUserAuth",
+      "Aggregator": "Aggregator"
+    }
+  ]
+}
